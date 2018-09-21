@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="col-xs-12 movie-card">
-        <div class="row" v-if="movie" v-cloak>
+        <div class="row" v-if="movie && !notFound" v-cloak>
             <div class="poster-container nopadding col-xs-12 col-md-4 col-lg-5">
                   <img class="align-self-start mr-3 poster" id="postertest" :src="`${movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : 'https://via.placeholder.com/450x650'}`">
             </div>
@@ -28,13 +28,13 @@
                     <div class="col-xs-6 col-md-6 col-lg-6 nopadding-legth">
                       Tempo de execução:
                       <span class="meta-data">
-                        {{ movie.runtime }} minutos
+                        {{ movie.runtime | duration}} minutos
                       </span>
                     </div>
                     <div class="col-xs-6 col-md-6 col-lg-6 nopadding-legth">
                       Receita:
                       <span class="meta-data">
-                        {{ formatRevenue(movie.revenue) }}
+                        {{ movie.revenue | currency }}
                       </span>
                     </div>
                     <div class="col-xs-6 col-md-6 col-lg-6 nopadding-legth">
@@ -62,6 +62,14 @@ export default {
     },
     movieId() {
       this.$store.dispatch("movieDetails", this.movieId);
+    },
+    notFound() {
+      if (this.notFound) {
+        console.log("/404");
+        this.$router.push({ name: "NotFound" });
+      } else {
+        this.changeBodyBackground();
+      }
     }
   },
 
@@ -69,19 +77,12 @@ export default {
     changeBodyBackground() {
       if (this.movie.backdrop_path) {
         const body = document.body;
-        const imageUrl = `https://image.tmdb.org/t/p/original/${
+        const imageUrl = `https://image.tmdb.org/t/p/original${
           this.movie.backdrop_path
         }`;
         body.style.backgroundImage = "";
         body.style.backgroundImage = `url(${imageUrl})`;
       }
-    },
-
-    formatRevenue(revenue) {
-      return new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-      }).format(revenue);
     }
   },
   computed: {
@@ -90,14 +91,13 @@ export default {
     },
     movieId() {
       return this.$route.params.movieId;
+    },
+    notFound() {
+      return this.$store.getters.getNotFound;
     }
   },
   created() {
     this.$store.dispatch("movieDetails", this.movieId);
-    if (this.movie === null) {
-      this.$router.push({ name: "NotFound" });
-    }
-    this.changeBodyBackground();
   }
 };
 </script>

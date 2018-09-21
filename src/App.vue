@@ -7,12 +7,14 @@
         </div>
       </div>
     </div>
-    <router-view/>
+    <transition name="router-anim">
+      <router-view/>
+    </transition>
     <footer>
       <div class="container-fluid">
         <div class="row">
         <div class="col-12 text-center">
-          <a href="">
+          <a href="https://github.com/arilsonsouza/vuejs-tmdb-app" target="_blank">
             <svg 
                viewBox="0 0 50 50" 
                width="50"
@@ -71,5 +73,35 @@ footer a:hover {
   color: #3fd275;
   text-decoration: none;
   font-family: "Lato", sans-serif;
+}
+
+.router-anim-enter-active {
+  animation: coming 1s;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.router-anim-leave-active {
+  animation: going 1s;
+}
+
+@keyframes going {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+@keyframes coming {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 </style>

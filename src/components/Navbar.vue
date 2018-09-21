@@ -78,13 +78,15 @@ export default {
       }
     },
     onArrowUp() {
-      if (this.arrowCounter > 0 && this.isOpen) {
+      if (this.arrowCounter >= 0 && this.isOpen) {
         this.arrowCounter--;
       }
     },
     onEnter() {
-      this.goToMoviePage(this.results[this.arrowCounter].id);
-      this.arrowCounter = -1;
+      if (this.arrowCounter >= 0) {
+        this.goToMoviePage(this.results[this.arrowCounter].id);
+        this.arrowCounter = -1;
+      }
     },
     handleClickOutside(e) {
       if (!this.$el.contains(e.target)) {
