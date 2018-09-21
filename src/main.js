@@ -4,11 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import * as filters from './utils/filters'
 
 Vue.config.productionTip = false
 
 window.axios = require('axios')
 
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key]);
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

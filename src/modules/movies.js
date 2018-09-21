@@ -3,7 +3,9 @@ import TMDB_API from '../api/tmdb';
 export default {
     state: {
         results: [],
-        movie: {}
+        movie: {},
+        nowPlaying: {},
+        notFound: false
     },
 
     getters: {
@@ -13,6 +15,14 @@ export default {
 
         getMovie(state) {
             return state.movie;
+        },
+
+        getNotFound(state) {
+            return state.notFound;
+        },
+
+        getNowPlaying(state) {
+            return state.nowPlaying;
         }
     },
 
@@ -29,11 +39,22 @@ export default {
             TMDB_API.movieDetails(movieId)
                 .then(resp => {
                     const { data } = resp;
+                    context.commit('notFound', false);
                     context.commit('movie', data);
                 }).catch(error => {
-                    console.log(error);
-                    context.commit('movie', null);
+                    context.commit('notFound', true);
+                    context.commit('movie', {});
                 });
+        },
+
+        nowPlaying(context) {
+            TMDB_API.nowPlaying()
+                .then(resp => {
+                    console.log(resp.data);
+                    context.commit('nowPlaying', resp.data);
+                }).catch(error => {
+                    console.log(error);
+                })
         }
     },
 
@@ -43,6 +64,14 @@ export default {
         },
         movie(state, payload) {
             state.movie = payload;
+        },
+
+        notFound(state, payload) {
+            state.notFound = payload;
+        },
+
+        nowPlaying(state, payload) {
+            state.nowPlaying = payload;
         }
     }
 }
