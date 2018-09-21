@@ -94,6 +94,9 @@ export default {
   },
   created() {
     this.$store.dispatch("movieDetails", this.movieId);
+    if (this.movie === null) {
+      this.$router.push({ name: "NotFound" });
+    }
     this.changeBodyBackground();
   }
 };

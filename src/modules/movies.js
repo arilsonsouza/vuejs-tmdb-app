@@ -30,7 +30,10 @@ export default {
                 .then(resp => {
                     const { data } = resp;
                     context.commit('movie', data);
-                }).catch(error => console.log(error));
+                }).catch(error => {
+                    console.log(error);
+                    context.commit('movie', null);
+                });
         }
     },
 
