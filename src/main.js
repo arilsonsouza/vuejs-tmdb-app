@@ -7,6 +7,8 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+window.axios = require('axios')
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
