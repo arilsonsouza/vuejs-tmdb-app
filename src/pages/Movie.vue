@@ -28,7 +28,7 @@
                     <div class="col-xs-6 col-md-6 col-lg-6 nopadding-legth">
                       Tempo de execução:
                       <span class="meta-data">
-                        {{ movie.runtime }} minutos
+                        {{ movie.runtime}} minutos
                       </span>
                     </div>
                     <div class="col-xs-6 col-md-6 col-lg-6 nopadding-legth">
